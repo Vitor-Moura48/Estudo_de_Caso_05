@@ -9,6 +9,7 @@ class AvaliacaoNutricional:
             perfil = pd.DataFrame(columns=['nome', 'identificador', 'habitos_alimentares', 'restricoes_alimentares', 'peso_objetivo', 'preferencias_alimentares'], dtype=str)
             perfil.to_csv(self.caminho_perfil_nutricional, index=False)
 
+    # RF 17 e 18
     def cadastrar_perfil_nutricional(self, nome, identificador, habitos, restricoes, peso_objetivo, preferencias):
 
         # lê o arquivo
@@ -47,12 +48,6 @@ class AvaliacaoNutricional:
         else:
             print("Indentificador não encontrado!")
         
-    def questionario_inicial(self):
-        pass
-
-
-
-
     def registro_dieta_diario(self):
         pass
 
