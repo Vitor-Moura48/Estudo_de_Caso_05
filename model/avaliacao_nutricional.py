@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from datetime import datetime
 
 class AvaliacaoNutricional:
     def __init__(self):
@@ -11,7 +12,7 @@ class AvaliacaoNutricional:
             perfil.to_csv(self.caminho_perfil_nutricional, index=False)
 
         if not os.path.exists(self.caminho_registro_diario):
-            perfil = pd.DataFrame(columns=['nome', 'identificador', 'data', 'descricao_refeicoes', 'calorias_totais'])
+            perfil = pd.DataFrame(columns=['nome', 'identificador', 'data', 'descricao_refeicoes', 'calorias_totais', 'consumo_agua', 'suplementos'])
             perfil.to_csv(self.caminho_registro_diario, index=False)
 
     # RF 17 e 18
@@ -53,21 +54,37 @@ class AvaliacaoNutricional:
         else:
             print("Indentificador não encontrado!")
     
-    def registro_dieta_diario(self, nome, identificador, data, descricao, caloria_total):
+    # RF 19 e 21
+    def registro_dieta_diario(self, nome, identificador, descricao, caloria_total, consumo_agua, suplementos):
         
         # lê o arquivo
         registro = pd.read_csv(self.caminho_registro_diario)
+
+        # Obtém a data de hoje
+        data = str(datetime.now().date())
     
         # confere se já existe algum registro daquele aluno naquele dia
         if registro.empty or registro.loc[(registro['identificador'].astype(str) == identificador) & (registro['data'] == data)].empty:
 
             # adiciona o novo registro no arquivo
-            novo_registro = pd.DataFrame({"nome": [nome], "identificador": [identificador], "data": [data], "descricao": [descricao], "caloria_total": [caloria_total]})
+            novo_registro = pd.DataFrame({
+                                            "nome": [nome],
+                                            "identificador": [identificador],
+                                            "data": [data], 
+                                            "descricao": [descricao], 
+                                            "caloria_total": [caloria_total], 
+                                            "consumo_agua": [consumo_agua], 
+                                            "suplementos": [suplementos]
+                                        })
             novo_registro.to_csv(self.caminho_registro_diario, index=False, header=False, mode='a')
 
             # faz uma analise da proporção peso/calorias
             peso = round((caloria_total - 550) / 15, 2)
             print(f"\nVocê ingeriu calorias para uma pessoa de {peso}kg\n")
+
+            # alerta caso o consumo de água não esteja completo
+            if consumo_agua < 2:
+                print(f"Alerta! Necessário consumo de água: {2 - consumo_agua}L\n")
 
         else:
             print("\nVocê já fez um registro hoje!\n")
@@ -102,8 +119,8 @@ class AvaliacaoNutricional:
         else:
             print("\nIndentificador não encontrado!\n")
 
-    def acompanhamento_consumo_agua_suplementos(self):
-        pass
+
+
 
     def alerta_meta_nutricional(self):
         pass
@@ -111,11 +128,10 @@ class AvaliacaoNutricional:
     def integracao_aplicativo_rastreamento_alimentar(self):
         pass
 
-    def feedback_comunicacao_nutriccionista(self):
+    def feedback_comunicacao_nutricionista(self):
         pass
 
 
 teste = AvaliacaoNutricional()
 
-teste.orientacao_nutricional('123')
-teste.orientacao_nutricional('w352566')
+teste.registro_dieta_diario('vitor', '123', 'alguma coisa', 1000, 1.25, 'nenhum')
