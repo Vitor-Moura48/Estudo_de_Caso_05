@@ -72,8 +72,35 @@ class AvaliacaoNutricional:
         else:
             print("\nVocê já fez um registro hoje!\n")
 
-    def orientacao_nutricional(self):
-        pass
+    def orientacao_nutricional(self, identificador):
+        
+        # lê o arquivo
+        perfil_nutricional = pd.read_csv(self.caminho_perfil_nutricional)
+
+        # confere se o identificador está no arquivo
+        if not perfil_nutricional.empty and identificador in str(perfil_nutricional['identificador'].values):
+
+            # obtem as informações da pessoa especifica
+            informacoes_aluno = perfil_nutricional.loc[perfil_nutricional['identificador'].astype(str) == identificador]
+
+            # calcula as calorias recomentadas
+            calorias_recomendadas = (int(informacoes_aluno['peso_objetivo'][0]) * 15) + 550
+
+            # recomenda alimentos de acordo com as calorias recomendadas
+            print(f"\nCalorias recomendadas: {calorias_recomendadas}")
+            if calorias_recomendadas <= 1300:
+                print("\nprocura ingerir alimentos como: frutas, legumes, proteinas: frango\n")
+            elif calorias_recomendadas <= 1600:
+                print("\nprocura ingerir alimentos como: grãos integrais, abacate, laticínios, proteinas: peixe, ovos\n")
+            elif calorias_recomendadas <= 1900:
+                print("\nProcura ingerir alimentos como: azeite de oliva, frutas secas, quinoa, proteinas: carne vermelha\n")
+            elif calorias_recomendadas <= 2350:
+                print("\nProcura ingerir alimentos como: amêndoas, massa, bacon, queijos mais gordurosos, proteina: salmão\n")
+            else:
+                print("\nSem muitas restrições...\n")
+                
+        else:
+            print("\nIndentificador não encontrado!\n")
 
     def acompanhamento_consumo_agua_suplementos(self):
         pass
@@ -90,6 +117,5 @@ class AvaliacaoNutricional:
 
 teste = AvaliacaoNutricional()
 
-teste.registro_dieta_diario('vitor', '123', '02/12/2023', 'qewfwerfgfverhgtrg hsghwtrhwh', 1500)
-teste.registro_dieta_diario('gabriel', '456', '02/12/2023', 'okvbmrsejgbnauytgfv jeinfwerfkmng', 1800)
-teste.registro_dieta_diario('gabriel', '456', '01/12/2023', 'okvbmrsejgbnauytgfv jeinfwerfkmng', 1600)
+teste.orientacao_nutricional('123')
+teste.orientacao_nutricional('w352566')

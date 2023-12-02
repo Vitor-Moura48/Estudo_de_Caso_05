@@ -17,7 +17,7 @@ def run():
                                         ('1 - Cadastrar Perfil Nutricional', '1'),
                                         ('2 - Alterar Pefil Nutricional', '2'),
                                         ('3 - Fazer Registro de Dieta Diario', '3'),
-                                        ('4 - ', '4')
+                                        ('4 - Buscar Orientação Nutricional', '4')
                                         ('5 - ', '5'),
                                         ('6 - ', '6'),
                                         ('7 - ', '7'),
@@ -100,7 +100,13 @@ def run():
 
         elif opcao == '4':
 
-            pass
+            perguntas_registro = [
+                                    inquirer.Text('identificador', message='Digite sua senha de identificação')
+                                ]
+            respostas_registro = inquirer.prompt(perguntas_registro)
+            identificador = respostas_registro['identificador']
+
+            avaliacao_nutricional.orientacao_nutricional(identificador)
             
         elif opcao == '5':
             
