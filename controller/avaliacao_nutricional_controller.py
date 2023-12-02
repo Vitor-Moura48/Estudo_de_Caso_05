@@ -16,7 +16,7 @@ def run():
                                 choices=[
                                         ('1 - Cadastrar Perfil Nutricional', '1'),
                                         ('2 - Alterar Pefil Nutricional', '2'),
-                                        ('3 - ', '3'),
+                                        ('3 - Fazer Registro de Dieta Diario', '3'),
                                         ('4 - ', '4')
                                         ('5 - ', '5'),
                                         ('6 - ', '6'),
@@ -65,7 +65,7 @@ def run():
                                 inquirer.Text('habitos', message='novos habitos alimentares'),
                                 inquirer.Text('restricoes', message='novas restrições alimentares'),
                                 inquirer.Text('peso_objetivo', message='novo pesso objetivo'),
-                                inquirer.Text('preferencias', message='novas preferências alimentares'),
+                                inquirer.Text('preferencias', message='novas preferências alimentares')
                                 ]
             respostas_registro = inquirer.prompt(perguntas_registro)
 
@@ -81,7 +81,22 @@ def run():
             
         elif opcao == '3':
             
-            pass
+            perguntas_registro = [
+                                inquirer.Text('nome', message='novo nome'),
+                                inquirer.Text('identificador', message='Digite sua senha de identificação'),
+                                inquirer.Text('data', message='novos habitos alimentares'),
+                                inquirer.Text('descricao', message='novas restrições alimentares'),
+                                inquirer.Text('caloria_total', message='novo pesso objetivo')
+                                ]
+            respostas_registro = inquirer.prompt(perguntas_registro)
+
+            nome = respostas_registro['nome']
+            identificador = respostas_registro['identificador']
+            data = respostas_registro['data']
+            descricao = respostas_registro['descricao']
+            caloria_total = respostas_registro['caloria_total']
+
+            avaliacao_nutricional.registro_dieta_diario(nome, identificador, data, descricao, caloria_total)
 
         elif opcao == '4':
 
