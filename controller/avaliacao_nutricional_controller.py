@@ -82,21 +82,24 @@ def run():
         elif opcao == '3':
             
             perguntas_registro = [
-                                inquirer.Text('nome', message='novo nome'),
+                                inquirer.Text('nome', message='Digite o nome'),
                                 inquirer.Text('identificador', message='Digite sua senha de identificação'),
-                                inquirer.Text('data', message='novos habitos alimentares'),
-                                inquirer.Text('descricao', message='novas restrições alimentares'),
-                                inquirer.Text('caloria_total', message='novo pesso objetivo')
+                                inquirer.Text('data', message='Digite a data'),
+                                inquirer.Text('descricao', message='Digite a descrição dos alimentos consumidos'),
+                                inquirer.Text('caloria_total', message='Digite as calorias consumadas'),
+                                inquirer.Text('consumo_agua', message='Digite a quantidade de água consumida (litros)'),
+                                inquirer.Text('suplementos', message='Digite os suplementos utilizados')
                                 ]
             respostas_registro = inquirer.prompt(perguntas_registro)
 
             nome = respostas_registro['nome']
             identificador = respostas_registro['identificador']
-            data = respostas_registro['data']
             descricao = respostas_registro['descricao']
-            caloria_total = respostas_registro['caloria_total']
+            caloria_total = float(respostas_registro['caloria_total'])
+            consumo_agua = float(respostas_registro['consumo_agua'])
+            suplementos = respostas_registro['suplementos']
 
-            avaliacao_nutricional.registro_dieta_diario(nome, identificador, data, descricao, caloria_total)
+            avaliacao_nutricional.registro_dieta_diario(nome, identificador, descricao, caloria_total, consumo_agua, suplementos)
 
         elif opcao == '4':
 
@@ -107,6 +110,8 @@ def run():
             identificador = respostas_registro['identificador']
 
             avaliacao_nutricional.orientacao_nutricional(identificador)
+
+
             
         elif opcao == '5':
             
@@ -121,10 +126,5 @@ def run():
             pass
 
         elif opcao == '8':
-
-            pass
-    
-        
-        elif opcao == '9':
             print(f'{cor_mensagem_ok}Saindo do módulo...{Style.RESET_ALL}')
             break
