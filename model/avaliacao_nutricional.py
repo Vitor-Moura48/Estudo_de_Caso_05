@@ -6,6 +6,7 @@ class AvaliacaoNutricional:
     def __init__(self):
         self.caminho_perfil_nutricional = "database/perfil_nutricional.csv"
         self.caminho_registro_diario = "database/registro_diario.csv"
+        self.caminho_feedbacks = "database/feedbacks.csv"
 
         if not os.path.exists(self.caminho_perfil_nutricional):
             perfil = pd.DataFrame(columns=['nome', 'identificador', 'habitos_alimentares', 'restricoes_alimentares', 'peso_objetivo', 'preferencias_alimentares'], dtype=str)
@@ -14,6 +15,10 @@ class AvaliacaoNutricional:
         if not os.path.exists(self.caminho_registro_diario):
             perfil = pd.DataFrame(columns=['nome', 'identificador', 'data', 'descricao_refeicoes', 'calorias_totais', 'consumo_agua', 'suplementos'])
             perfil.to_csv(self.caminho_registro_diario, index=False)
+        
+        if not os.path.exists(self.caminho_feedbacks):
+            perfil = pd.DataFrame(columns=['nome', 'identificador', 'data', 'feedback'])
+            perfil.to_csv(self.caminho_feedbacks, index=False)
 
     # RF 17 e 18
     def cadastrar_perfil_nutricional(self, nome, identificador, habitos, restricoes, peso_objetivo, preferencias):
@@ -128,10 +133,23 @@ class AvaliacaoNutricional:
     def integracao_aplicativo_rastreamento_alimentar(self):
         pass
 
-    def feedback_comunicacao_nutricionista(self):
-        pass
 
+    
+
+    def feedback_comunicacao_nutricionista(self, nome, identificador, feedback):
+
+        arquivo_feedbacks = pd.read_csv(self.caminho_feedbacks)
+
+        # Obtém a data de hoje
+        data = str(datetime.now().date())
+
+        # confere se o aluno já enviou algum feedback hoje
+        if arquivo_feedbacks.empty or arquivo_feedbacks.loc[(arquivo_feedbacks['identificador'].astype(str) == identificador) & (arquivo_feedbacks['data'] == data)].empty:
+
+            novo_feedback = pd.DataFrame({"nome": [nome], "identificador": [identificador], "data": [data], "feedback": [feedback]})
+            novo_feedback.to_csv(self.caminho_feedbacks, index=False, header=False, mode='a')
+
+        else:
+            print("\nFeedback já registrado hoje!\n")
 
 teste = AvaliacaoNutricional()
-
-teste.registro_dieta_diario('vitor', '123', 'alguma coisa', 1000, 1.25, 'nenhum')
