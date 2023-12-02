@@ -20,9 +20,8 @@ def run():
                                         ('4 - Buscar Orientação Nutricional', '4')
                                         ('5 - ', '5'),
                                         ('6 - ', '6'),
-                                        ('7 - ', '7'),
-                                        ('8 - ', '8')
-                                        ('9 - Sair do módulo', '9'),
+                                        ('7 - Enviar Feedbacks', '7'),
+                                        ('8 - Sair do módulo', '8'),
                                         
                                         ]
                                 )
@@ -123,7 +122,18 @@ def run():
             
         elif opcao == '7':
             
-            pass
+            perguntas_registro = [
+                                    inquirer.Text('nome', message='Digite sua senha de identificação'),
+                                    inquirer.Text('identificador', message='Digite sua senha de identificação'),
+                                    inquirer.Text('feedback', message='Digite sua senha de identificação')
+                                ]
+            respostas_registro = inquirer.prompt(perguntas_registro)
+
+            nome = respostas_registro['nome']
+            identificador = respostas_registro['identificador']
+            feedback = respostas_registro['feedback']
+
+            avaliacao_nutricional.orientacao_nutricional(nome, identificador, feedback)
 
         elif opcao == '8':
             print(f'{cor_mensagem_ok}Saindo do módulo...{Style.RESET_ALL}')
