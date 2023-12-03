@@ -17,12 +17,10 @@ def run():
                                         ('1 - Cadastrar Perfil Nutricional', '1'),
                                         ('2 - Alterar Pefil Nutricional', '2'),
                                         ('3 - Fazer Registro de Dieta Diario', '3'),
-                                        ('4 - Buscar Orientação Nutricional', '4')
-                                        ('5 - ', '5'),
-                                        ('6 - ', '6'),
-                                        ('7 - Enviar Feedbacks', '7'),
-                                        ('8 - Sair do módulo', '8'),
-                                        
+                                        ('4 - Buscar Orientação Nutricional', '4'),
+                                        ('5 - Buscar Informações sobre alimentos', '5'),
+                                        ('6 - Enviar Feedbacks', '6'),
+                                        ('7 - Sair do módulo', '7')
                                         ]
                                 )
                     ]
@@ -43,7 +41,7 @@ def run():
                                 inquirer.Text('habitos', message='Digite seus habitos alimentares'),
                                 inquirer.Text('restricoes', message='Digite suas restrições alimentares'),
                                 inquirer.Text('peso_objetivo', message='Digite seu pesso objetivo'),
-                                inquirer.Text('preferencias', message='Digite suas preferÊncias alimentares'),
+                                inquirer.Text('preferencias', message='Digite suas preferências alimentares'),
                                 ]
             respostas_registro = inquirer.prompt(perguntas_registro)
 
@@ -83,7 +81,6 @@ def run():
             perguntas_registro = [
                                 inquirer.Text('nome', message='Digite o nome'),
                                 inquirer.Text('identificador', message='Digite sua senha de identificação'),
-                                inquirer.Text('data', message='Digite a data'),
                                 inquirer.Text('descricao', message='Digite a descrição dos alimentos consumidos'),
                                 inquirer.Text('caloria_total', message='Digite as calorias consumadas'),
                                 inquirer.Text('consumo_agua', message='Digite a quantidade de água consumida (litros)'),
@@ -94,8 +91,14 @@ def run():
             nome = respostas_registro['nome']
             identificador = respostas_registro['identificador']
             descricao = respostas_registro['descricao']
-            caloria_total = float(respostas_registro['caloria_total'])
-            consumo_agua = float(respostas_registro['consumo_agua'])
+
+            try:
+                caloria_total = float(respostas_registro['caloria_total'])
+                consumo_agua = float(respostas_registro['consumo_agua'])
+            except:
+                print(f"\n{cor_mensagem_erro}Digite valores adequados!{Style.RESET_ALL}\n")
+                break
+
             suplementos = respostas_registro['suplementos']
 
             avaliacao_nutricional.registro_dieta_diario(nome, identificador, descricao, caloria_total, consumo_agua, suplementos)
@@ -109,23 +112,23 @@ def run():
             identificador = respostas_registro['identificador']
 
             avaliacao_nutricional.orientacao_nutricional(identificador)
-
-
             
         elif opcao == '5':
             
-            pass
+            perguntas_registro = [
+                                    inquirer.Text('busca', message='Digite o alimento que deseja')
+                                ]
+            respostas_registro = inquirer.prompt(perguntas_registro)
+            busca = respostas_registro['busca']
+
+            avaliacao_nutricional.rastreamento_alimentar(busca)
 
         elif opcao == '6':
-
-            pass
-            
-        elif opcao == '7':
             
             perguntas_registro = [
-                                    inquirer.Text('nome', message='Digite sua senha de identificação'),
+                                    inquirer.Text('nome', message='Digite seu nome'),
                                     inquirer.Text('identificador', message='Digite sua senha de identificação'),
-                                    inquirer.Text('feedback', message='Digite sua senha de identificação')
+                                    inquirer.Text('feedback', message='Digite seu feedback')
                                 ]
             respostas_registro = inquirer.prompt(perguntas_registro)
 
@@ -133,7 +136,7 @@ def run():
             identificador = respostas_registro['identificador']
             feedback = respostas_registro['feedback']
 
-            avaliacao_nutricional.orientacao_nutricional(nome, identificador, feedback)
+            avaliacao_nutricional.feedback_comunicacao_nutricionista(nome, identificador, feedback)
 
         elif opcao == '8':
             print(f'{cor_mensagem_ok}Saindo do módulo...{Style.RESET_ALL}')
