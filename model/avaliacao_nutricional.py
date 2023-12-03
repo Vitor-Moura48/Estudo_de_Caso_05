@@ -151,7 +151,7 @@ class AvaliacaoNutricional:
 
 
     def alerta_meta_nutricional(self, identificador, caloria_total):
-        '''
+        
         # lê o arquivo
         perfil_nutricional = pd.read_csv(self.caminho_perfil_nutricional)
 
@@ -172,25 +172,31 @@ class AvaliacaoNutricional:
             else:
                 mensagem = "Você está consumindo muitas calorias!"
 
-            # encia um email com a mensagem (ainda incompleto)
-            endereco = 'smtp.gmail.com'
-            porta = 587
-            servidor = smtplib.SMTP(endereco, porta)
+            # tenta enviar um email para o aluno com informações sobre seu desempenho
+            try:
 
-            servidor.starttls()
-            servidor.login('estudo.caso.05@gmail.com', '192837a5')
+                # encia um email com a mensagem (ainda incompleto)
+                endereco = 'smtp.gmail.com'
+                porta = 587
+                servidor = smtplib.SMTP(endereco, porta)
 
-            de = 'algum_email.7@gmail.com'
-            para = 'estudo.caso.05@gmail.com'
-            assunto = 'Estudo de Caso 05'
-            corpo_do_email = f'Assunto: {assunto}\n\n{mensagem}'
+                servidor.starttls()
+                servidor.login('estudo.caso.05@gmail.com', '192837a5')
 
-            servidor.sendmail(de, para, corpo_do_email)
-            servidor.quit()
+                de = 'algum_email.7@gmail.com'
+                para = 'estudo.caso.05@gmail.com'
+                assunto = 'Estudo de Caso 05'
+                corpo_do_email = f'Assunto: {assunto}\n\n{mensagem}'
+
+                servidor.sendmail(de, para, corpo_do_email)
+                servidor.quit()
+
+            except:
+                print(f"\n{cor_mensagem_erro}Não foi possível estabelecer uma conexão com email{Style.RESET_ALL}\n")
     
         else:
             print(f"\n{cor_mensagem_erro}Indentificador não encontrado!{Style.RESET_ALL}\n")
-        '''
+        
 
     # busca o alimento e informa quantas calorias ele tem a partir de uma api
     def rastreamento_alimentar(self, busca):
