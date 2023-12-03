@@ -35,7 +35,7 @@ try:
                             (f'2 - Módulo de ', '2'),
                             (f'3 - Módulo de ', '3'),
                             (f'4 - Módulo de Avaliação Nutricional', '4'),
-                            (f'7 - Encerrar a Sessão no Sistema', '5')
+                            (f'5 - Encerrar a Sessão no Sistema', '5')
                         ])
         ]
 
