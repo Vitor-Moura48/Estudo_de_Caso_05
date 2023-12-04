@@ -43,7 +43,7 @@ class CadastroAluno_Acompanhamento:
         lista_avaliacao_aluno.append(input("Digite a medição de peso (se houver): "))
         lista_avaliacao_aluno.append(input("Digite a análise de desempenho em exercícios (se houver): "))
         
-        if os.path.isfile(f'database/avaliacao_alunos/{nome}.csv'):              
+        if os.path.isfile(f"database/avaliacao_alunos/{nome}.csv"):              
             with open(f'database/avaliacao_alunos/{nome}.csv','a',newline='') as arquivo_csv:
                 escritor = csv.writer(arquivo_csv)
                 escritor.writerow(lista_avaliacao_aluno)                                    
