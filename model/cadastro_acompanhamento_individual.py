@@ -30,12 +30,6 @@ class CadastroAluno_Acompanhamento:
 
     def avaliacao_periodica(self,nome):
         lista_avaliacao_aluno = []
-        
-        if not os.path.isfile(f'database/avaliacao_alunos/{nome}.csv'):              
-            with open(f'database/avaliacao_alunos/{nome}.csv','a',newline='') as arquivo_csv:
-                escritor = csv.writer(arquivo_csv)
-                escritor.writerow(['Nome','Data','Teste_Fisico','Peso','Desempenho'])
-
         print("Avaliação do aluno")
         lista_avaliacao_aluno.append(nome)
         lista_avaliacao_aluno.append(input("Digite a data da avaliação: "))
