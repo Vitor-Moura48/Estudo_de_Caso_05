@@ -1,5 +1,6 @@
 import os
 import csv
+from datetime import datetime
 
 class CadastroAluno_Acompanhamento:
     def __init__(self):
@@ -68,6 +69,54 @@ class CadastroAluno_Acompanhamento:
                                     escritor.writerow(['Nome','Data','Teste_Fisico','Peso','Desempenho_Fisico'])
         else:
             print('Aluno não está cadastrado! Cadastre-o')
-            
-gr = CadastroAluno_Acompanhamento()
 
+    def historico(self,nome):
+        with open(f"database/avaliacao_alunos/{nome}.csv",'r') as arquivo:
+            leitor = csv.reader(arquivo)
+            next(leitor)
+            for avaliacao in leitor:
+                if avaliacao[0] == nome:
+                    if not os.path.isfile(f"database/historico_alunos/{nome}.csv"):
+                        with open(f"database/historico_alunos/{nome}.txt",'w') as arquivo_txt:
+                            arquivo_txt.write(f'{avaliacao[2]} -- {avaliacao[4]}')
+                    else:
+                        with open(f"database/historico_alunos/{nome}.txt",'a') as arquivo_txt:
+                            arquivo_txt.write(f'\n{avaliacao[2]} -- {avaliacao[4]}')    
+    
+    def alerta(self,nome):
+        resposta = (input(f'O aluno {nome} veio hoje? [S/N]').upper().strip()[0])
+        
+        if resposta == 'N':
+            with open(f'database/avaliacao_alunos/{nome}.csv','a',newline='') as arquivo:
+                escritor = csv.writer(arquivo)
+                escritor.writerow([f'Aluno {nome} esteve pendente hoje!'])
+        else:
+            pass
+    
+    def personalizar(self,nome):
+        with open(f"database/avaliacao_alunos/{nome}.csv",'r') as arquivo:
+            leitor = csv.reader(arquivo)
+            next(leitor)
+            print(f'==treino de {nome}==')
+            for avaliacao in leitor:
+                print(f'\n{avaliacao[2]} -- {avaliacao[4]}')
+            
+            continuar_n = (input("Deseja ajustar o treino? [S/N]").upper().strip()[0])
+            
+            if continuar_n == 'S':
+                treino = input('Digite o treino do aluno:')
+                if not os.path.isfile(f"database/treino_personalizado/{nome}.txt"):
+                    with open(f'database/treino_personalizado/{nome}.txt','w') as arquivo_txt:
+                        arquivo_txt.write(treino)
+                else:
+                    
+                    with open(f'database/treino_personalizado/{nome}.txt','w') as arquivo_txt:
+                        arquivo_txt.write(treino)
+                    print('Treino ajustado')
+
+            elif continuar_n == 'N':
+                return print('Treino visto')      
+
+ 
+gr = CadastroAluno_Acompanhamento()
+gr.alerta('Rafael')
