@@ -1,27 +1,34 @@
+import os
+import csv
+
 class CadastroAluno_Acompanhamento:
     def __init__(self):
-        self.lista_alunos = []
+        self.cadastro = "database/cadastro_alunos.csv"
+
+        if os.path.isfile(self.cadastro):
+            pass
+        else:
+           with open(self.cadastro,'a',newline='') as arquivo_csv:
+               escritor = csv.writer(arquivo_csv,delimiter=';')
+               escritor.writerow(['Nome','Historico_Medico','Idade','Peso','Altura','Metas_do_Aluno'])
 
     def cadastro_alunos(self):
 
-        while True:
-            aluno = []
-            i = i + 1
-            print("Cadastro de alunos")
-            print(f"Aluno {i}")
-            aluno.append(input("Nome: "))
-            aluno.append(input("Histórico Médico(Se houver): "))
-            aluno.append(int(input("idade: ")))
-            aluno.append(float(input("Peso: ")))
-            aluno.append(float(input("Altura: ")))
-            aluno.append(input("Digite as metas de condicionamento do aluno (se houver):"))
-            self.lista_alunos.append(aluno[:])
-            resp = ("Continuar o cadastro? [S/N] ").upper().strip()[0]
-            if resp == "N":
-                break
-    
-    def avaliacao_periodica(self):
-        lista_avaliacao = []
+        aluno = []
+        print("Cadastro de alunos")
+        nome = (input("Nome: "))
+        aluno.append(nome)
+        aluno.append(input("Histórico Médico(Se houver): "))
+        aluno.append(int(input("idade: ")))
+        aluno.append(float(input("Peso: ")))
+        aluno.append(float(input("Altura: ")))
+        aluno.append(input("Digite as metas de condicionamento do aluno (se houver):"))
+        
+        with open(self.cadastro,'a',newline='') as arquivo_csv:
+            escritor = csv.writer(arquivo_csv,delimiter=';')
+            escritor.writerow(aluno)
+
+    def avaliacao_periodica(self,nome):
         lista_avaliacao_aluno = []
         print("Avaliação")
         while True:
@@ -35,3 +42,8 @@ class CadastroAluno_Acompanhamento:
             resp = input("Quer ir para o próximo paciente? [S/N] ").upper().strip()[0]
             if resp == "N":
                 break
+
+
+                                               
+
+            
