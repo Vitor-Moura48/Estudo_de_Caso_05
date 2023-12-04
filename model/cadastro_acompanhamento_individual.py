@@ -103,6 +103,7 @@ class CadastroAluno_Acompanhamento:
             
             continuar_n = (input("Deseja ajustar o treino? [S/N]").upper().strip()[0])
             
+            
             if continuar_n == 'S':
                 treino = input('Digite o treino do aluno:')
                 if not os.path.isfile(f"database/treino_personalizado/{nome}.txt"):
