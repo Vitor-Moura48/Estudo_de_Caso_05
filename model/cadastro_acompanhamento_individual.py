@@ -44,14 +44,14 @@ class CadastroAluno_Acompanhamento:
         lista_avaliacao_aluno.append(input("Digite a análise de desempenho em exercícios (se houver): "))
         
         if os.path.isfile(f"database/avaliacao_alunos/{nome}.csv"):              
-            with open(f'database/avaliacao_alunos/{nome}.csv','a') as arquivo_csv:
+            with open(f'database/avaliacao_alunos/{nome}.csv','a',newline='') as arquivo_csv:
                 escritor = csv.writer(arquivo_csv)
                 escritor.writerow(lista_avaliacao_aluno)                                    
             
     def relatorios(self,nome):
         if os.path.isfile(f"database/avaliacao_alunos/{nome}.csv"):
             count = 0
-            with open(f"database/avaliacao_alunos/{nome}.csv", "r") as arquivo_relatorios:
+            with open(f"database/avaliacao_alunos/{nome}.csv","r") as arquivo_relatorios:
                 leitor = csv.reader(arquivo_relatorios)
                 next(leitor)
                 for avaliacao in leitor:
@@ -59,14 +59,15 @@ class CadastroAluno_Acompanhamento:
                         count += 1
                         if count == 5:
                             if os.path.isfile(f"database/relatorio_alunos/{nome}.csv"):
-                                with open(f"database/relatorio_alunos/{nome}.csv", "a") as arquivo_relatorio_nome:
+                                with open(f"database/relatorio_alunos/{nome}.csv",'a',newline='') as arquivo_relatorio_nome:
                                     escritor = csv.writer(arquivo_relatorio_nome)
                                     escritor.writerow(avaliacao)
                             else:
-                                with open(f"database/relatorio_alunos/{nome}.csv", "a", newline='') as arquivo_relatorio_nome:
+                                with open(f"database/relatorio_alunos/{nome}.csv",'a',newline='') as arquivo_relatorio_nome:
                                     escritor = csv.writer(arquivo_relatorio_nome)
                                     escritor.writerow(['Nome','Data','Teste_Fisico','Peso','Desempenho_Fisico'])
-
+        else:
+            print('Aluno não está cadastrado! Cadastre-o')
+            
 gr = CadastroAluno_Acompanhamento()
-gr.avaliacao_periodica("Rafael")
-gr.relatorios("Rafael")
+
