@@ -35,8 +35,3 @@ class CadastroAluno_Acompanhamento:
             resp = input("Quer ir para o próximo paciente? [S/N] ").upper().strip()[0]
             if resp == "N":
                 break
-
-
-                                               
-
-            
