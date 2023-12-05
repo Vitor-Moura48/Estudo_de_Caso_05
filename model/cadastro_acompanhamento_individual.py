@@ -93,14 +93,7 @@ class CadastroAluno_Acompanhamento:
         else:
             pass
     
-    def personalizar(self,nome):
-        with open(f"database/avaliacao_alunos/{nome}.csv",'r') as arquivo:
-            leitor = csv.reader(arquivo)
-            next(leitor)
-            print(f'==treino de {nome}==')
-            for avaliacao in leitor:
-                print(f'\n{avaliacao[2]} -- {avaliacao[4]}')
-            
+    def personalizar(self,nome):  
             continuar_n = (input("Deseja ajustar o treino? [S/N]").upper().strip()[0])
             
             
@@ -118,6 +111,53 @@ class CadastroAluno_Acompanhamento:
             elif continuar_n == 'N':
                 return print('Treino visto')      
 
- 
-gr = CadastroAluno_Acompanhamento()
-gr.alerta('Rafael')
+class Mensagem:
+    def __init__(self, remetente, destinatario, conteudo):
+        self.remetente = remetente
+        self.destinatario = destinatario
+        self.conteudo = conteudo
+        self.data = datetime.now()
+        
+    def salvar_mensagem(self):
+        data_formatada = self.data.strftime("%Y-%m-%d_%H-%M-%S")
+        nome_arquivo = f"{self.remetente}_{self.destinatario}_{data_formatada}.txt"
+
+        with open(nome_arquivo, 'w') as arquivo:
+            arquivo.write(f"De: {self.remetente}\n")
+            arquivo.write(f"Para: {self.destinatario}\n")
+            arquivo.write(f"Data: {self.data}\n")
+            arquivo.write(f"Conteúdo: {self.conteudo}\n")
+
+        print(f"Mensagem salva em {nome_arquivo}")
+
+class Aluno:
+    def __init__(self, nome):
+        self.nome = nome
+        self.lista_de_professores = ['João', 'Pedro', 'Caio', 'Amaral']
+
+    def enviar_mensagem_professor(self, conteudo):
+        print("Escolha o professor destinatário:")
+        for i, professor in enumerate(self.lista_de_professores, start=1):
+            print(f"{i}. {professor}")
+
+        try:
+            opcao = int(input("Digite o número do professor destinatário: "))
+            professor_destino = self.lista_de_professores[opcao - 1]
+        except (ValueError, IndexError):
+            print("Opção inválida. Tente novamente.")
+            return
+
+        mensagem = Mensagem(self.nome, professor_destino, conteudo)
+        print(f"Mensagem enviada para {professor_destino}: {conteudo}")
+        return mensagem
+
+
+class Professor:
+    def __init__(self, nome):
+        self.nome = nome
+
+    def enviar_mensagem_aluno(self, aluno_destino, conteudo):
+        print('Mensagem enviada')
+        
+    def receber_mensagem(self,aluno,conteudo):
+        print(f"Mensagem recebida de {aluno} em {Mensagem(self.data)}: {conteudo}")
